@@ -30,12 +30,13 @@ namafile = {'Hasil Simulasi IGWO 1';
     'Hasil Simulasi IGWO 24';
     'Hasil Simulasi IGWO 25'};
 % hasilsimulasi = zeros(4,30);
-hasilsimulasi = zeros(8,30);
+ndata = 30;
+hasilsimulasi = zeros(8,ndata);
 for jj = 1:25
     %% I-GWO
     starting = matriksawalhari(jj);
-    hasilsimulasi = zeros(8,30);
-    for k = 1:30 %% ambil data 30 kali
+    hasilsimulasi = zeros(8,ndata);
+    for k = 1:ndata %% ambil data ndata kali
         %% susun data yang diregress
         barisdata = [];
         %         harilibur = [];
@@ -107,8 +108,8 @@ for jj = 1:25
     %     xlswrite(char(namafile(jj)),hasilsimulasi,'GWO','B2');
     xlswrite(char(namafile(jj)),hasilsimulasi,'IGWO','B2');
     % %% GWO
-    hasilsimulasi = zeros(8,30);
-    for k = 1:30 %% ambil data 30 kali
+    hasilsimulasi = zeros(8,ndata);
+    for k = 1:ndata %% ambil data ndata kali
         %% susun data yang diregress
         barisdata = [];
         %         harilibur = [];
@@ -167,7 +168,7 @@ for jj = 1:25
         [gam,sig2] = tunelssvmgwo({Xtraindata,Ytraindata,'f',[],[],'RBF_kernel'},'simplex','crossvalidatelssvm',{4,'mae'});
         waktusim = toc;
         %% Get Alpha Beta from best tuning
-        [alpha,b] = trainlssvmgwo({Xtraindata,Ytraindata,'f',gam,sig2,'RBF_kernel'});
+        [alpha,b] = trainlssvm({Xtraindata,Ytraindata,'f',gam,sig2,'RBF_kernel'});
         %% Start Prediction
         prediction = simlssvm({Xtraindata,Ytraindata,'f',gam,sig2,'RBF_kernel'},{alpha,b},Xtestdata);
         %     plot([prediction Ytestdata]);
@@ -179,8 +180,8 @@ for jj = 1:25
     end
     xlswrite(char(namafile(jj)),hasilsimulasi,'GWO','B2');
     % %% CSA
-    hasilsimulasi = zeros(8,30);
-    for k = 1:30 %% ambil data 30 kali
+    hasilsimulasi = zeros(8,ndata);
+    for k = 1:ndata %% ambil data ndata kali
         %% susun data yang diregress
         barisdata = [];
         %         harilibur = [];
@@ -251,8 +252,8 @@ for jj = 1:25
     end
     xlswrite(char(namafile(jj)),hasilsimulasi,'CSA','B2');
     % %% ALO
-    hasilsimulasi = zeros(8,30);
-    for k = 1:30 %% ambil data 30 kali
+    hasilsimulasi = zeros(8,ndata);
+    for k = 1:ndata %% ambil data ndata kali
         %% susun data yang diregress
         barisdata = [];
         %         harilibur = [];
@@ -323,8 +324,8 @@ for jj = 1:25
     end
     xlswrite(char(namafile(jj)),hasilsimulasi,'ALO','B2');
     % %% APSO
-    hasilsimulasi = zeros(8,30);
-    for k = 1:30 %% ambil data 30 kali
+    hasilsimulasi = zeros(8,ndata);
+    for k = 1:ndata %% ambil data ndata kali
         %% susun data yang diregress
         barisdata = [];
         %         harilibur = [];
@@ -380,10 +381,10 @@ for jj = 1:25
         %         Xtestdata = [Xtestdata,datatable(:,1:end)];
         %% Start 4-fold CV tuning. Error function MAE. Optimization Method Coupled SA then Nelder-Mead Simplex Algorithm
         tic;
-        [gam,sig2] = tunelssvmgwo({Xtraindata,Ytraindata,'f',[],[],'RBF_kernel'},'simplex','crossvalidatelssvm',{4,'mae'});
+        [gam,sig2] = tunelssvmapso({Xtraindata,Ytraindata,'f',[],[],'RBF_kernel'},'simplex','crossvalidatelssvm',{4,'mae'});
         waktusim = toc;
         %% Get Alpha Beta from best tuning
-        [alpha,b] = trainlssvmapso({Xtraindata,Ytraindata,'f',gam,sig2,'RBF_kernel'});
+        [alpha,b] = trainlssvm({Xtraindata,Ytraindata,'f',gam,sig2,'RBF_kernel'});
         %% Start Prediction
         prediction = simlssvm({Xtraindata,Ytraindata,'f',gam,sig2,'RBF_kernel'},{alpha,b},Xtestdata);
         %     plot([prediction Ytestdata]);
