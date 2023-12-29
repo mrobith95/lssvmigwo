@@ -30,7 +30,7 @@ namafile = {'Hasil Simulasi IGWO 1';
     'Hasil Simulasi IGWO 24';
     'Hasil Simulasi IGWO 25'};
 % hasilsimulasi = zeros(4,30);
-ndata = 30;
+ndata = 30; % how many times an algorithm should run for each study case
 hasilsimulasi = zeros(8,ndata);
 for jj = 1:25
     %% I-GWO
